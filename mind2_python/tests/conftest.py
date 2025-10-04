@@ -2,6 +2,22 @@
 import inspect
 from datetime import datetime
 import pytest
+import importlib.util
+import os
+
+# 🔧 Skip MT5-dependent tests when running on CI (no MetaTrader5 SDK)
+MT5_AVAILABLE = importlib.util.find_spec("MetaTrader5") is not None
+
+# Allow explicit skip via environment variable (e.g. SKIP_MT5=1 in GitHub Actions)
+if not MT5_AVAILABLE or os.getenv("SKIP_MT5") == "1":
+    pytest.skip(
+        "⏩ Skipping tests that depend on MetaTrader5 SDK (not available in CI)",
+        allow_module_level=True,
+    )
+
+# =====================================================
+# ✅ Factory helper for TradeEntry
+# =====================================================
 from mind2_python.schema import TradeEntry
 
 def make_entry(**overrides):
@@ -43,7 +59,10 @@ def make_entry(**overrides):
 
     return TradeEntry(**defaults)
 
-# fixture เดิมของคุณก็ยังอยู่
+
+# =====================================================
+# ✅ Fixture for PositionManager (singleton-safe)
+# =====================================================
 from mind2_python.position_manager import PositionManager
 
 @pytest.fixture
