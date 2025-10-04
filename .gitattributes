@@ -1,0 +1,84 @@
+# ==========================================
+# ⚙️ DualMindTrader Git Attributes
+# For consistent behavior across OS (Windows / Linux / macOS)
+# ==========================================
+
+# --- Normalize text files to LF on commit ---
+# (Git will convert to CRLF automatically on Windows checkout)
+* text=auto eol=lf
+
+# --- Treat Python files as text ---
+*.py text diff=python
+*.pyw text diff=python
+
+# --- Configuration files (normalize + diff clean) ---
+*.ini text
+*.cfg text
+*.yaml text
+*.yml text
+*.toml text
+*.json text
+*.csv text
+*.txt text
+
+# --- Documentation files ---
+*.md text
+*.rst text
+LICENSE text
+README* text
+
+# --- Windows batch / PowerShell scripts ---
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# --- Shell scripts (Linux CI) ---
+*.sh text eol=lf
+
+# --- MetaTrader5 compiled or binary files (mark as binary, no diff) ---
+*.ex5 binary
+*.ex4 binary
+*.mq5 text
+*.hst binary
+*.dat binary
+
+# --- Binary artifacts (no diff) ---
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.pkl binary
+*.db binary
+
+# --- Logs & Coverage reports (treat as text, avoid CRLF noise) ---
+*.log text
+*.html text
+*.xml text
+*.cov text
+
+# --- Snapshots & Tests output (normalize) ---
+__snapshots__/* text
+*.snap text
+
+# --- Benchmark results (CSV/HTML/PNG) ---
+benchmarks/results/* text
+
+# --- Ensure YAML configs in Mind2 stay consistent ---
+mind2_python/**/*.yaml text
+mind2_python/**/*.yml text
+
+# --- Ignore diff on venv or binary data ---
+venv/** -diff
+.venv/** -diff
+
+# --- GitHub Actions workflows ---
+.github/workflows/* text eol=lf
+
+# ==========================================
+# End of DualMindTrader .gitattributes
+# ==========================================
