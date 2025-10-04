@@ -1,0 +1,202 @@
+🧠 1. Intelligence Layer
+
+Regime Detection → ก่อน integrate ให้ detect ว่าตลาดอยู่โหมดไหน (trend / range / high vol / low vol) แล้วปรับ weight ของ scalp/day/swing ตาม regime
+→ เช่น ถ้า ADX < 20 ให้ลดน้ำหนัก swing, ถ้า ATR spike ให้เพิ่ม scalp
+
+Dynamic Thresholds → decision_threshold ปรับตาม volatility (เช่น ATR) แทนที่จะ fix ไว้
+
+Ensemble ML Models → ใช้ machine learning หรือ reinforcement learning เพื่อ tune weight/scoring ของกลยุทธ์
+
+🛡️ 2. Risk Super-Layer
+
+Kill-Switch → ถ้า equity drawdown > X% ภายใน Y ชั่วโมง → block ทุก entry ชั่วคราว (circuit breaker แบบ hedge fund)
+
+Adaptive Sizing → lot ไม่ใช่แค่ตาม balance แต่ปรับตาม volatility regime (volatility targeting เช่น Risk Parity funds)
+
+Cross-Correlation Risk → PortfolioManager ควรคำนวณ correlation ของ symbols → ถ้า BTCUSD กับ ETHUSD high correlation ให้ลด exposure รวม
+
+📊 3. Execution Mastery
+
+Smart Order Splitting → series entries ควรมี time-stagger (เช่น entry0, entry1 ห่างกัน X นาที) → ลด slippage
+
+Spread Surge Detection → ถ้า spread > avg + k*σ → block orders (คุณเริ่มทำแล้ว 👍 แต่เพิ่ม adaptive z-score จะ global มากขึ้น)
+
+Liquidity Windows → auto-disable trade ก่อนข่าวใหญ่ หรือช่วง rollover/low liquidity
+
+📈 4. Logging & Feedback
+
+Explainability Logs → export JSON report ของทุก decision (symbol, regime, strategy votes, reasons, sl/tp calc) → ใช้ใน backtest/ML training ได้
+
+Equity Curve Guard → log equity curve real-time + monitor slope → ถ้า slope down (persistent loss) → trigger adapt หรือ cool-down
+
+Meta-Dashboard → log per-strategy performance (scalp win%, swing avg RR) → ใช้ auto-reweight strategies
+
+🧠 Layer AI ที่เพิ่มได้
+1. AI สำหรับ Regime Detection
+
+ใช้ ML/AI แยกตลาดว่าอยู่ Trend / Range / High-Vol / Low-Vol
+
+โมเดล: Random Forest, Gradient Boosting, หรือ CNN-LSTM ที่กิน indicator sequence (EMA, RSI, ATR, ADX, Volume Profile ฯลฯ)
+
+Output → class ของ regime → ปรับ weight ของ scalp/day/swing อัตโนมัติ
+
+2. AI สำหรับ Signal Integration
+
+ตอนนี้คุณ integrate ด้วย linear weight → สามารถเปลี่ยนเป็น meta-model (Stacking/Ensemble) ที่เรียนรู้จาก backtest
+
+Input features: scalp/day/swing score, conf, ATR, ADX, volatility regime
+
+Output → final decision (BUY/SELL/HOLD) + calibrated probability (winprob)
+
+3. AI สำหรับ Position Sizing
+
+Reinforcement Learning (RL) เช่น PPO, DQN → ให้ agent เรียนรู้ปรับ lot sizing ตาม volatility และ equity curve
+
+Objective → maximize Sharpe Ratio / reduce MaxDD
+
+4. AI สำหรับ Adaptive Exit
+
+Neural net หรือ XGBoost model ที่เรียนรู้ว่า ควรปิดก่อน TP หรือ Hold ต่อ
+
+Features: unrealized PnL, volatility spike, RSI divergence, spread surge
+
+ใช้เพื่อ dynamic trailing stop ที่ฉลาดกว่า ATR multiplier fixed
+
+🚀 เทคโนโลยีที่ใช้จริงใน Hedge Fund
+
+Bayesian Optimization → tune parameter (ATR_multi, decision_threshold, weight) แบบอัตโนมัติ
+
+Online Learning (partial_fit, incremental update) → โมเดลปรับตามข้อมูลใหม่แบบ real-time
+
+Explainable AI (XAI) → ใช้ SHAP/LIME บอกเหตุผลว่า AI ตัดสินใจ BUY/SELL เพราะอะไร → audit ได้
+decision_engine.py เวอร์ชันเต็มล่าสุด ที่มีครบทั้ง
+
+Rule-based (Scalp, Day, Swing)
+
+RegimeDetector
+
+AIManager (stub)
+
+fusion_decision()
+
+GlobalEntry / GlobalExit / RiskGuard / PortfolioManager / HybridExit / PositionManager
+
+Logging ครบ
+
+pretty_logger.py รองรับการ log เพิ่มเติม ได้แก่:
+
+Regime (trend / range / high_vol / low_vol / event / normal)
+
+AI / Rule / Fusion decision พร้อม confidence / score
+
+🔑 สรุปความคืบหน้า
+
+🧩 decision_engine.py → รองรับ RegimeDetector (edge case (0,0) = normal), AIManager stub, fusion_decision() align กับ policy table
+
+🖥️ pretty_logger.py → log ครอบคลุม AI / Rule / Fusion / Regime
+
+🌍 global_manager.py → align เหตุผล/เหตุการณ์กับ Fusion decision
+
+🧪 pytest tests → ครอบคลุม RegimeDetector, FusionDecision, GlobalEntryManager, GlobalExitManager → ✅ green
+
+
+[TRADE SIGNAL] XAUUSDc 📈 BUY | Lot=0.2500 | TF=H1 | WinProb≈76.6%
+📊 Entry @ 3685.0210
+🛑 SL=3671.67
+🎯 TP1=3695.02 (+10.00, 40%)
+🎯 TP2=3705.02 (+20.00, 30%)
+🎯 TP3=3715.02 (+30.00, 30%)
+🔄 ATR×1.8 → 16.02
+⏳ Reason: OK
+--------------------------------------------------------------------------------
+# 📊 Indicator Matrix — DualMindTrader
+
+ตารางนี้สรุป Indicator ทั้งหมดที่ส่งมาจาก **Mind1 (MT5 EA)** → ใช้โดย **Mind2 (Python Engine)**  
+แบ่งตามประเภท และระบุว่าใช้ในกลยุทธ์ไหน (Scalp/Day/Swing)
+
+---
+
+## Matrix Table
+
+| Indicator            | ประเภท (Category)         | Scalp (M5) | Day (H1) | Swing (H4) | หมายเหตุ |
+|----------------------|----------------------------|------------|----------|------------|----------|
+| **ema_fast / ema_slow** | Trend / Moving Average   | ✅ | ✅ | ✅ | ตรวจ Cross / Trend direction |
+| **rsi**              | Oscillator / Momentum      | ✅ | ✅ | ✅ | Overbought / Oversold |
+| **atr**              | Volatility / Risk          | ❌ | ✅ | ✅ | ใช้กรอง high/low volatility |
+| **macd_main/signal/hist** | Trend + Momentum       | ✅ | ✅ | ✅ | Divergence, momentum shift |
+| **bos_str / bos_val**| Structure / Break of Structure | ✅ | ✅ | ✅ | BOS / Breakout detection |
+| **stoch_k / stoch_d**| Oscillator                 | ✅ | ✅ | ❌ | Sensitive, scalp/day เท่านั้น |
+| **williams_r**       | Oscillator                 | ✅ | ✅ | ❌ | เหมือน RSI แต่เร็วกว่า |
+| **obv**              | Volume-based               | ✅ | ✅ | ❌ | Confirm trend strength |
+| **mfi**              | Volume / Momentum          | ✅ | ✅ | ❌ | Money Flow Index |
+| **adx**              | Trend Strength             | ❌ | ✅ | ✅ | ใช้คัดแยก strong/weak trend |
+| **cci**              | Oscillator                 | ❌ | ✅ | ✅ | Trend confirmation |
+| **bb_upper/mid/lower** | Channel / Volatility Band | ✅ | ✅ | ❌ | Breakouts, mean reversion |
+| **vwap**             | Volume Weighted Price      | ✅ | ✅ | ❌ | Mean reversion |
+| **ichimoku\_*** (5 ตัว)| Trend / Support / Resistance | ❌ | ✅ | ✅ | Tenkan, Kijun, Senkou A/B, Chikou |
+| **psar**             | Stop / Reverse             | ✅ | ✅ | ✅ | ใช้เป็น trailing stop |
+| **atr_stop**         | Volatility-based Stop      | ✅ | ✅ | ✅ | Hybrid exit component |
+| **supertrend**       | Trend-following Stop       | ✅ | ✅ | ✅ | Confirm bull/bear zone |
+| **supertrend_trend** | Trend State (Bull/Bear)    | ✅ | ✅ | ✅ | Bull / Bear / Neutral |
+| **pivot_p / r1 / s1**| Pivot Levels               | ✅ | ✅ | ✅ | Support/Resistance |
+| **roc**              | Momentum                   | ✅ | ✅ | ✅ | Rate of Change |
+| **fractal_high/low** | Price Structure            | ❌ | ✅ | ✅ | Detect swing highs/lows |
+| **keltner\_*** (3 ตัว)| Channel                   | ❌ | ✅ | ✅ | Confirm breakout |
+| **donchian\_*** (3 ตัว)| Channel                   | ❌ | ✅ | ✅ | Swing/day breakout channel |
+
+---
+
+## 🔎 Key Insights
+
+- **Scalp (M5)** → เน้น momentum + fast oscillators (RSI, Stoch, BB, VWAP, Williams %R)  
+- **Day (H1)** → Balanced set: EMA, RSI, MACD, ATR, ADX, CCI, Stoch, Ichimoku, BB, VWAP  
+- **Swing (H4)** → เน้น Trend + Volatility (EMA, RSI, MACD, ATR, ADX, Ichimoku, Keltner, Donchian, Fractals)  
+- **Common across all** → EMA, RSI, MACD, BOS, ATR Stop, Supertrend, Pivot, ROC  
+
+---
+
+📌 หมายเหตุ:  
+- Indicator ใช้ได้หลายกลยุทธ์ แต่ threshold/config จะต่างกัน per symbol (เช่น XAUUSD อาจต้อง RSI > 70 ถึงถือว่าขาย, แต่ EURUSD ใช้ RSI > 65)  
+- Matrix นี้ควรอัปเดตเมื่อมีการเพิ่ม/ตัด indicator ใน Mind1  
+| Symbol      | ⚙️ Core Indicators (RSI/ATR/ADX)       | 🎨 Custom Indicators (VWAP, Stoch, MACD, BB, BOS)                            | 🏷️ หมายเหตุ                   |
+| ----------- | -------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------ |
+| **BTCUSDc** | ✅ RSI 55/45<br>✅ ATR ≥35<br>✅ ADX ≥25  | ✅ VWAP<br>✅ Stoch 80/20<br>🎨 MACD **8/21/9**<br>🎨 BB dev=**2.5**<br>✅ BOS  | 🔄 Scaler, ใช้ custom MACD/BB  |
+| **XAUUSDc** | ✅ RSI 60/40<br>✅ ATR ≥1.0<br>✅ ADX ≥20 | ✅ VWAP<br>🎨 Stoch **85/15**<br>MACD 12/26/9<br>🎨 BB period=**21**<br>✅ BOS | 🛑 Strict, custom Stoch/BB     |
+| **EURUSDc** | ✅ RSI 55/45<br>✅ ATR ≥0.3<br>✅ ADX ≥20 | ✅ VWAP<br>Stoch 80/20<br>MACD 12/26/9<br>BB 20/2.0<br>✅ BOS                  | 🛑 Strict, baseline indicators |
+| **AUDUSDc** | ✅ RSI 55/45<br>✅ ATR ≥0.4<br>✅ ADX ≥20 | ✅ VWAP<br>Stoch 80/20<br>MACD 12/26/9<br>BB 20/2.0<br>✅ BOS                  | 🔄 Scaler, baseline indicators |
+| **NZDUSDc** | ✅ RSI 55/45<br>✅ ATR ≥0.4<br>✅ ADX ≥20 | ✅ VWAP<br>Stoch 80/20<br>MACD 12/26/9<br>BB 20/2.0<br>✅ BOS                  | 🔄 Scaler, baseline indicators |
+| **GBPUSDc** | ✅ RSI 60/40<br>✅ ATR ≥0.6<br>✅ ADX ≥25 | ✅ VWAP<br>Stoch 80/20<br>🎨 MACD **10/24/9**<br>BB 20/2.0<br>✅ BOS           | 🛑 Strict, custom MACD         |
+✔ Mind1
+
+mind1_feed_exporter.py → patch เสร็จ (dynamic filter, disconnect flag, ATR consistency, export health state)
+
+feed ตัวอย่างที่คุณส่งมาก็สวยแล้ว (เฉพาะ BTCUSDc, XAUUSDc, มี ATR/RSI/MACD/ADX ครบ)
+
+✔ Mind2
+
+คุณอัปทุกโมดูลหลักหมดแล้ว (day, scalp, swing, schema, decision_engine, lot, executor, hybrid_exit, portfolio_manager, global_manager, pretty_logger, logger, run_ho)
+
+run harness (run_ho.py) รองรับ global exit + trailing + hybrid exit แล้ว
+
+integration เป็นแบบ hybrid weighted (scalp/day/swing)
+
+integrate_decisions
+
+HybridExit รองรับ Shared SL Zone + fallback ATR
+
+hybrid_exit
+
+LotSizer มี Global Reversal scaling
+
+lotsizer
+
+Executor รองรับ sl/tp injection + replace order
+
+executor
+---
+ python -m mind2_python.run_ho `
+>>   --balance 1000 `
+>>   --interval 10 `
+>>   --config mind2_python/config.symbols.yaml `
+>>   --feed mind1_mt5/mind1_feed.json
+>>   --debug-trailing

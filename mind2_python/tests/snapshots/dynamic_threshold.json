@@ -1,0 +1,23 @@
+{
+  "atr_high": {
+    "base": 0.1,
+    "atr": 2.0,
+    "atr_ma": 1.0,
+    "threshold": 0.05,
+    "relation": "lower"
+  },
+  "atr_low": {
+    "base": 0.1,
+    "atr": 0.5,
+    "atr_ma": 1.0,
+    "threshold": 0.12,
+    "relation": "higher"
+  },
+  "atr_equal": {
+    "base": 0.1,
+    "atr": 1.0,
+    "atr_ma": 1.0,
+    "threshold": 0.1,
+    "relation": "equal"
+  }
+}

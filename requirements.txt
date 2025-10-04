@@ -1,0 +1,49 @@
+# =============================================
+# 🧠 DualMindTrader Environment (MT5-compatible)
+# =============================================
+
+# --- Core numerical & data handling ---
+numpy==1.26.4          # ✅ เสถียรสุด รองรับ MetaTrader5 SDK
+pandas==2.2.3
+scipy==1.13.1
+
+# --- Visualization & reporting ---
+plotly==6.3.1
+kaleido==1.1.0
+colorama==0.4.6
+
+# --- Config / serialization / utils ---
+PyYAML==6.0.2
+orjson==3.11.3
+packaging==25.0
+
+# --- Logging / JSON tools ---
+loguru==0.7.2
+simplejson==3.20.2
+
+# --- Testing & coverage ---
+pytest==8.4.1
+pytest-cov==7.0.0
+pytest-mock==3.14.1
+pytest-timeout==2.4.0
+snapshottest==0.6.0
+
+# --- Helpers for analytics & system utilities ---
+joblib==1.4.2
+tqdm==4.66.5
+
+# --- MetaTrader5 API (Python binding) ---
+MetaTrader5==5.0.45
+
+# --- Optional (performance / benchmark) ---
+psutil==6.0.0
+
+# =============================================
+# Notes:
+# 1. NumPy locked at 1.26.4 → รองรับ MetaTrader5 และ libs ที่ใช้ binary extension ทั้งหมด
+# 2. ใช้งานได้ทั้ง Windows + Linux (สำหรับ CI/CD)
+# 3. ถ้าจะอัปเกรด NumPy >2.0 ต้องรอ MetaTrader5 SDK รุ่นใหม่ (ปัจจุบัน build บน NumPy 1.x)
+# 4. ติดตั้งทุกครั้งใน virtual environment (venv) ด้วยคำสั่ง:
+#      pip install -U pip
+#      pip install -r requirements.txt
+# =============================================

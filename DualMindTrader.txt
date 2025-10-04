@@ -1,0 +1,209 @@
+DualMindTrader/
+│
+├── mind1_mt5/                          # 🧠 Mind 1 (EA MT5)
+│   ├── Mind1_EA.mq5
+│   ├── config_mt5.ini
+│   ├── mind1_feed.json
+│   └── README.md
+│
+├── mind2_python/                       # 🧠 Mind 2 (Python Bot)
+│   ├── __init__.py
+│   ├── decision_engine.py              # Core: Decision + Execution
+│   ├── global_manager.py
+│   ├── scalp.py
+│   ├── day.py
+│   ├── swing.py
+│   ├── mind2_feed.json
+│   ├── config_loader.py
+│   ├── hybrid_exit.py
+│   ├── indicators.py
+│   ├── indicators_efficient.py
+│   ├── integrate_decisions.py
+│   ├── logger.py
+│   ├── lotsizer.py
+│   ├── executor.py
+│   ├── portfolio_manager.py
+│   ├── position_manager.py
+│   ├── pretty_logger.py
+│   ├── risk_guard.py
+│   ├── safe_print.py
+│   ├── schema.py
+│   ├── config.symbols.yaml
+│   ├── run_ho.py
+│   │
+│   └── tests/                          # ✅ รวม unit tests ทั้งหมดที่นี่
+│       ├── test_config_loader.py
+│       ├── test_engine.py
+│       ├── test_engine_matrix.py
+│       ├── test_engine_priority_matrix.py
+│       ├── test_lotsizer.py
+│       ├── test_risk_guard.py
+│       ├── test_portfolio_manager.py
+│       ├── test_hybrid_exit.py
+│       ├── test_indicators_efficient.py
+│       │
+│       # 🔹 Decision Engine tests (ย้ายมารวมกัน)
+│       ├── test_decision_engine_force.py
+│       ├── test_decision_engine_full.py
+│       ├── test_decision_engine_gap.py
+│       ├── test_decision_engine_pinpoint.py
+│       ├── test_decision_engine_quick.py
+│       ├── test_decision_engine_sl_tp.py
+│       └── test_decision_engine_branches_full.py
+│
+└── README.md                           # Overview โปรเจกต์
+
+
+
+
+[TRADE SIGNAL] XAUUSDc 📈 BUY | Lot=0.2500 | TF=H1 | WinProb≈76.6%
+📊 Entry @ 3685.0210
+🛑 SL=3671.67
+🎯 TP1=3695.02 (+10.00, 40%)
+🎯 TP2=3705.02 (+20.00, 30%)
+🎯 TP3=3715.02 (+30.00, 30%)
+🔄 ATR×1.8 → 16.02
+⏳ Reason: OK
+
+📌 Roadmap Flow ของ DualMindTrader
+1. ข้อมูลตลาด (Market Data)
+
+MT5 feed: Bid, Ask, OHLC (M1, M5, H1, H4…)
+
+Indicators ที่คำนวณใน EA: EMA, RSI, MACD, ATR, BOS ฯลฯ
+
+Risk filters: Spread, News, Sideway detection
+
+2. 🧠 Mind1 (MT5 EA Layer)
+
+ไฟล์หลัก:
+
+Mind1_EA.mq5 → EA หลักที่ทำงานใน MT5
+
+config_mt5.ini → config EA (spread_limit, news filter ฯลฯ)
+
+กระบวนการ:
+
+EA รันทุก tick / timer
+
+อ่าน config_mt5.ini
+
+คำนวณ indicators + risk filters
+
+รวม feeds → JoinFeeds()
+
+Export → mind1_feed.json
+
+👉 Output: mind1_feed.json
+
+3. 🧠 Mind2 (Python Engine Layer)
+
+โครงสร้าง:
+
+Entry point: run_ho.py
+
+Core: decision_engine.py
+
+Strategies: scalp.py, day.py, swing.py
+
+Risk & Portfolio: risk_guard.py, portfolio_manager.py, position_manager.py
+
+Lot & Exit: lotsizer.py, hybrid_exit.py
+
+Integrate: integrate_decisions.py
+
+Validation: schema.py (dataclass + batch parser)
+
+Config: config.symbols.yaml
+
+Log: logger.py, safe_print.py
+
+กระบวนการ:
+
+run_ho.py → โหลด mind1_feed.json
+
+ผ่าน schema.py → validate JSON structure
+
+เข้า decision_engine.py → pipeline หลัก:
+
+Indicators check (indicators.py / indicators_efficient.py)
+
+Risk guard (risk_guard.py)
+
+Portfolio manager (portfolio_manager.py)
+
+Strategy evaluation (scalp.py, day.py, swing.py)
+
+Integrate decision (integrate_decisions.py)
+
+Lot sizing (lotsizer.py)
+
+Hybrid exit levels (hybrid_exit.py)
+
+Final decision = BUY / SELL / HOLD
+
+👉 Output: Order Request (symbol, direction, lot, SL/TP)
+
+4. กลับไป MT5
+
+Python ใช้ MT5 API (ผ่าน executor.py)
+
+ส่งคำสั่ง → MT5
+
+MT5 เปิด order จริง
+
+🔗 Diagram
+[ MT5 Market Data ] 
+        │
+        ▼
+   🧠 Mind1 (EA / MQL5)
+   - Indicators (EMA, RSI, MACD, ATR…)
+   - Risk Filters (spread, news, sideway)
+   - Export JSON
+        │
+        ▼
+   mind1_feed.json
+        │
+        ▼
+   🧠 Mind2 (Python)
+   run_ho.py
+        │
+   schema.py (validate)
+        │
+   decision_engine.py ────────────────┐
+        │                             │
+   ├── scalp.py                       │
+   ├── day.py                         │
+   ├── swing.py                       │
+        │                             │
+   integrate_decisions.py              │
+        │                             │
+   risk_guard.py                       │
+   portfolio_manager.py                │
+   position_manager.py                 │
+   lotsizer.py                         │
+   hybrid_exit.py                      │
+        │                             │
+        ▼                             │
+   Final Decision (BUY/SELL/HOLD) ◀───┘
+        │
+        ▼
+   executor.py → ส่ง order → MT5 API
+
+📂 Flow ของไฟล์
+
+Mind1 (EA)
+Mind1_EA.mq5 → mind1_feed.json
+
+Mind2 (Python)
+run_ho.py → schema.py → decision_engine.py →
+strategies + risk + portfolio + lot sizing → executor.py
+
+Config
+
+EA: config_mt5.ini
+
+Python: config.symbols.yaml
+
+Tests
+tests/ ครอบคลุมทุก module

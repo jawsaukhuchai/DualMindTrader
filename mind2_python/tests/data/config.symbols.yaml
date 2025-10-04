@@ -1,0 +1,56 @@
+---
+BTCUSDc:
+  integration:
+    mode: majority
+  risk:
+    risk_percent: 1.0
+  pip_size: 1
+  pip_value: 1
+
+XAUUSDc:
+  integration:
+    mode: priority
+    weights:
+      scalp: 1.0
+      day: 1.0
+      swing: 1.0
+  risk:
+    risk_percent: 1.0
+  pip_size: 0.1
+  pip_value: 1
+
+EURUSDc:
+  integration:
+    mode: majority
+  risk:
+    risk_percent: 1.0
+  pip_size: 0.0001
+  pip_value: 10
+
+AUDUSDc:
+  integration:
+    mode: majority
+  risk:
+    risk_percent: 1.0
+  pip_size: 0.0001
+  pip_value: 10
+
+NZDUSDc:
+  integration:
+    mode: majority
+  risk:
+    risk_percent: 1.0
+  pip_size: 0.0001
+  pip_value: 10
+
+GBPUSDc:
+  integration:
+    mode: priority
+    weights:
+      scalp: 1.0
+      day: 1.0
+      swing: 1.0
+  risk:
+    risk_percent: 1.0
+  pip_size: 0.0001
+  pip_value: 10

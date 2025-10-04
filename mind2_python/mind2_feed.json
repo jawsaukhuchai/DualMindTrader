@@ -1,0 +1,116 @@
+[
+  {
+    "symbol": "BTCUSDc",
+    "decision": "BUY",
+    "confidence": 5.0,
+    "reasons": ["EMA=1", "RSI=1", "MACD=1", "BOS=1"],
+    "entry": 45250.0,
+    "sl": 44750.0,
+    "tp": [45280.0, 45310.0],
+    "lot": 0.01,
+    "trailing_stop": 450.0,
+    "order_stage": 1,
+    "timestamp": "2025-09-16T12:00:00Z",
+    "order_status": {
+      "sent": true,
+      "retcode": 10009,
+      "ticket": 5012341,
+      "comment": "Order executed successfully"
+    }
+  },
+  {
+    "symbol": "XAUUSDc",
+    "decision": "BUY",
+    "confidence": 4.2,
+    "reasons": ["EMA=1", "RSI=1", "MACD=1", "BOS=1"],
+    "entry": 1930.5,
+    "sl": 1917.75,
+    "tp": [1932.5, 1934.5],
+    "lot": 0.05,
+    "trailing_stop": 11.0,
+    "order_stage": 1,
+    "timestamp": "2025-09-16T12:00:00Z",
+    "order_status": {
+      "sent": true,
+      "retcode": 10009,
+      "ticket": 5012342,
+      "comment": "Order executed successfully"
+    }
+  },
+  {
+    "symbol": "EURUSDc",
+    "decision": "SELL",
+    "confidence": 3.5,
+    "reasons": ["EMA=1", "RSI=-1", "MACD=-1", "BOS=-1"],
+    "entry": 1.1762,
+    "sl": 1.1784,
+    "tp": [1.1747, 1.1732],
+    "lot": 0.02,
+    "trailing_stop": 0.0014,
+    "order_stage": 1,
+    "timestamp": "2025-09-16T12:00:00Z",
+    "order_status": {
+      "sent": true,
+      "retcode": 10009,
+      "ticket": 5012343,
+      "comment": "Order executed successfully"
+    }
+  },
+  {
+    "symbol": "AUDUSDc",
+    "decision": "SELL",
+    "confidence": 3.8,
+    "reasons": ["EMA=-1", "RSI=-1", "MACD=-1", "BOS=-1"],
+    "entry": 0.6485,
+    "sl": 0.6503,
+    "tp": [0.6465, 0.6445],
+    "lot": 0.02,
+    "trailing_stop": 0.0012,
+    "order_stage": 1,
+    "timestamp": "2025-09-16T12:00:00Z",
+    "order_status": {
+      "sent": false,
+      "retcode": 10021,
+      "ticket": null,
+      "comment": "Invalid volume"
+    }
+  },
+  {
+    "symbol": "NZDUSDc",
+    "decision": "SELL",
+    "confidence": 3.9,
+    "reasons": ["EMA=-1", "RSI=-1", "MACD=-1", "BOS=-1"],
+    "entry": 0.6015,
+    "sl": 0.6035,
+    "tp": [0.5995, 0.5975],
+    "lot": 0.02,
+    "trailing_stop": 0.0013,
+    "order_stage": 1,
+    "timestamp": "2025-09-16T12:00:00Z",
+    "order_status": {
+      "sent": true,
+      "retcode": 10009,
+      "ticket": 5012344,
+      "comment": "Order executed successfully"
+    }
+  },
+  {
+    "symbol": "GBPUSDc",
+    "decision": "BUY",
+    "confidence": 4.1,
+    "reasons": ["EMA=1", "RSI=1", "MACD=1", "BOS=1"],
+    "entry": 1.2732,
+    "sl": 1.2714,
+    "tp": [1.2757, 1.2782],
+    "lot": 0.02,
+    "trailing_stop": 0.0022,
+    "order_stage": 1,
+    "timestamp": "2025-09-16T12:00:00Z",
+    "order_status": {
+      "sent": true,
+      "retcode": 10009,
+      "ticket": 5012345,
+      "comment": "Order executed successfully"
+    }
+  }
+]

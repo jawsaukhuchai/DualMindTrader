@@ -1,0 +1,49 @@
+name: 📈 DualMindTrader Benchmarks
+
+on:
+  # ✅ Manual trigger จากหน้า Actions
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    name: ⚙️ Run Benchmarks & Upload Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 30  # กันไม่ให้รันค้างเกินไป
+
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🧰 Set up Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: 🧩 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pytest pytest-cov
+
+      - name: 🧠 Run benchmark tests only
+        run: |
+          echo "🚀 Running DualMindTrader Benchmarks..."
+          pytest -m benchmark -s || true  # รัน benchmark ทั้งหมด แต่ไม่ fail job ถ้า benchmark เกิน threshold
+
+      - name: 📊 Upload benchmark results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results-${{ github.run_number }}
+          path: benchmarks/results/
+          retention-days: 60  # เก็บผลไว้ 60 วัน
+
+      - name: 📝 Summary log
+        if: always()
+        run: |
+          echo "✅ Benchmark completed."
+          echo "📊 Results uploaded as artifact: benchmark-results-${{ github.run_number }}"
+          echo "🕒 Timestamp: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"

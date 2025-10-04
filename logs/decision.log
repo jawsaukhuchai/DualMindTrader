@@ -1,0 +1,46 @@
+[EURUSDc] ⚠ Hard loss limit reached -100.00 <= -50
+[EURUSDc] ⚠ Loss % limit reached -500.00 / 2.0%
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+[EURUSDc] ⚠ Hard loss limit reached -100.00 <= -50
+[EURUSDc] ⚠ Loss % limit reached -500.00 / 2.0%
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+[EURUSDc] lot=0.004 < min_lot=0.01, forcing to 0.01
+[EURUSDc] ATR/pip_value invalid → fallback min_lot=0.01
+[EURUSDc] lot=0.001 < min_lot=0.01, forcing to 0.01
+[EURUSDc] SL mode but SL invalid → fallback to ATR mode
+[EURUSDc] lot=0.01 < min_lot=0.05, forcing to 0.05
+[EURUSDc] lot=9999.0 > max_lot=1.0 → adjusted
+[EURUSDc] raw lot=-0.5 → forcing min_lot=0.01
+[BTCUSDc] lot=0.0001 < min_lot=0.01, forcing to 0.01
+[BTCUSDc] lot=0.0004 < min_lot=0.01, forcing to 0.01
+[BTCUSDc] lot=0.0007 < min_lot=0.01, forcing to 0.01
+[XAUUSDc] lot=0.0005 < min_lot=0.01, forcing to 0.01
+[XAUUSDc] lot=0.0016 < min_lot=0.01, forcing to 0.01
+[XAUUSDc] lot=0.0026 < min_lot=0.01, forcing to 0.01
+[EURUSDc] lot=0.0042 < min_lot=0.01, forcing to 0.01
+[AUDUSDc] lot=0.0028 < min_lot=0.01, forcing to 0.01
+[AUDUSDc] lot=0.007 < min_lot=0.01, forcing to 0.01
+[NZDUSDc] lot=0.0035 < min_lot=0.01, forcing to 0.01
+[NZDUSDc] lot=0.0088 < min_lot=0.01, forcing to 0.01
+[GBPUSDc] lot=0.003 < min_lot=0.01, forcing to 0.01
+[GBPUSDc] lot=0.0075 < min_lot=0.01, forcing to 0.01
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45
+DAILY SUMMARY
+EURUSDc: PnL=123.45

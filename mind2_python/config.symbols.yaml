@@ -1,0 +1,83 @@
+portfolio:
+  max_symbols: 3
+
+global:
+  max_orders_total: 20
+  cooldown_seconds: 30
+  min_equity_pct: 80
+  max_drawdown_pct: 25
+  daily_target_pct: 12
+
+symbols:
+  BTCUSDc:
+    pip_size: 1.0
+    pip_value: 1.0
+    digits: 1
+    last_atr: 40.0
+    lot: { min: 0.10, max: 0.50, step: 0.01 }
+    portfolio:
+      max_risk_pct: 0.5         # 0.5% ต่อไม้
+      max_orders: 7
+      min_margin_level: 150
+      order_mode: rotation
+      min_winprob: 0.85
+      rotation_close: lowest_profit
+      series_mode: scaling
+    min_confidence: 0.6
+    entry_levels: [0, 200, 400]
+    integration_mode: hybrid     # BTC = AI Hybrid
+    max_num_entries: 2           # จำกัดไม่เกิน 2 ไม้
+    indicators:
+      ema: { fast_period: 20, slow_period: 50 }
+      rsi: { period: 14, bull_level: 55, bear_level: 45 }
+      atr: { period: 14, min_threshold: 35.0 }
+      adx: { min_threshold: 25 }
+      vwap: { enabled: true }
+      stoch: { k_period: 14, d_period: 3, overbought: 80, oversold: 20 }
+      macd: { fast: 8, slow: 21, signal: 9 }
+      bb: { period: 20, dev: 2.5 }
+      bos: { enabled: true }
+    exit:
+      sl_atr: 1.5
+      tp_steps: [1.0, 2.0, 3.0]
+      tp_perc: [40, 30, 30]
+      trailing:
+        mode: hybrid
+        breakeven: 200
+        atr_mult: 1.8
+
+  XAUUSDc:
+    pip_size: 0.1
+    pip_value: 1.0
+    digits: 2
+    last_atr: 1.2
+    lot: { min: 0.10, max: 0.50, step: 0.01 }
+    portfolio:
+      max_risk_pct: 0.3         # 0.3% ต่อไม้
+      max_orders: 7
+      min_margin_level: 200
+      order_mode: strict
+      series_mode: strict
+    min_confidence: 0.4
+    entry_levels: [0, 50, 100]
+    integration_mode: priority   # XAU = AI Priority
+    max_num_entries: 3           # ปล่อยได้สูงสุด 3 ไม้
+    priority_decision: swing     # ให้ swing strategy นำ
+    indicators:
+      ema: { fast_period: 50, slow_period: 200 }
+      rsi: { period: 14, bull_level: 60, bear_level: 40 }
+      atr: { period: 14, min_threshold: 1.0 }
+      adx: { min_threshold: 20 }
+      vwap: { enabled: true }
+      stoch: { k_period: 14, d_period: 3, overbought: 85, oversold: 15 }
+      macd: { fast: 12, slow: 26, signal: 9 }
+      bb: { period: 21, dev: 2.0 }
+      bos: { enabled: true }
+    exit:
+      sl_atr: 1.5
+      tp_steps: [1.0, 2.0, 3.0]
+      tp_perc: [40, 30, 30]
+      trailing:
+        mode: hybrid
+        breakeven: 15
+        atr_mult: 1.8
