@@ -1,48 +1,36 @@
 # ==========================================
 # 🧠 DualMindTrader Git Ignore Template
-# For Python + MetaTrader5 + Pytest + CI/CD
 # ==========================================
-
-# --- Python Bytecode / Cache ---
 __pycache__/
 *.py[cod]
 *$py.class
 
-# --- Virtual Environments ---
 venv/
 .venv/
 env/
 ENV/
 env.bak/
 
-# --- IDE / Editor Config ---
 .vscode/
 .idea/
-*.sublime-project
-*.sublime-workspace
 
-# --- Logs & Temp Data ---
 logs/
 *.log
 *.tmp
 *.bak
 
-# --- Test / Coverage Output ---
 htmlcov/
 .coverage
 coverage.xml
 coverage-*.xml
 .cache/
 .pytest_cache/
-junitxml_report.xml
 
-# --- Benchmark & Results ---
 benchmarks/results/
 benchmark_results.csv
 *.png
 *.html
 
-# --- Build / Distribution ---
 build/
 dist/
 *.egg-info/
@@ -50,23 +38,19 @@ dist/
 MANIFEST
 *.spec
 
-# --- OS-specific Files ---
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# --- Jupyter / Notebook Temp ---
 .ipynb_checkpoints/
 *.ipynb
 
-# --- Temporary config or data exports ---
 *.json
 *.csv
 *.yaml~
 *.yml~
 *.bak
 
-# --- MetaTrader5 generated data (if any) ---
 *.hst
 *.ex5
 *.mq5
@@ -75,26 +59,21 @@ MQL5/Logs/
 MQL5/Files/
 MQL5/Tester/
 
-# --- Environment / Secrets ---
 .env
 .env.*
 *.token
 secrets.json
 apikey.txt
 
-# --- Git / Lint Tools ---
 .pre-commit-config.yaml
 .tox/
 .mypy_cache/
 pylint.log
 
-# --- Project-specific Excludes ---
-# Mind2 temporary data or debug dumps
 mind2_python/tmp/
 mind2_python/debug/
 mind2_python/__snapshots__/
 
-# --- Windows / VS files ---
 *.exe
 *.dll
 *.pdb
@@ -102,7 +81,4 @@ mind2_python/__snapshots__/
 *.bak
 *.lnk
 *.orig
-
-# ==========================================
-# End of DualMindTrader .gitignore
 # ==========================================
